@@ -1,6 +1,6 @@
-import pyodbc
+import pyodbc, os, shutil
 
-arquivo = open('xml_chave', 'r')
+arquivo = open('xml_chaves.txt', 'r')
 texto = arquivo.read()
 
 conexao = \
@@ -18,7 +18,13 @@ def banco_de_dados():
     table = cursor.fetchall()
     cnxn.close()
 
+    if os.path.isdir(os.path.expanduser('~') + os.sep + 'Desktop' + os.sep + 'xmls') == True:
+        shutil.rmtree(os.path.expanduser('~') + os.sep + 'Desktop' + os.sep + 'xmls')
+    os.mkdir(os.path.expanduser('~') + os.sep + 'Desktop' + os.sep + 'xmls')
+
     for row in table:
-        print(row.CHAVE)
+
+        arquivo = open(row.CHAVE + '.txt', 'w')
+        arquivo.close()
 
     print(len(table))
