@@ -1,2 +1,2 @@
-# shop9_xml_automatico
+# Shop9_xml_automatico
 Envio automático de xmls por email.
