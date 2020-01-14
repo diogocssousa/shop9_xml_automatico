@@ -1,4 +1,4 @@
-import pyodbc, os, shutil, zipfile, smtplib, mimetypes
+import pyodbc, os, shutil, zipfile, smtplib, mimetypes, untangle
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -72,9 +72,17 @@ def banco_de_dados():
 
         xml = base_dir + 'xmls' + os.sep + row.CHAVE + '.xml'
         conteudo = row.XML_Documento
+        xml_aut = row.XML_Autorizacao
+
+        obj = untangle.parse(xml_aut)
+        xmlns = obj.protNFe['xmlns']
+        versao = obj.protNFe['versao']
+
+        xml_ant = '<nfeProc xmlns="'+xmlns +'" versao="'+ versao +'">'
+        xml_dep = '</nfeProc>'
 
         arquivo = open(xml,'w')
-        arquivo.writelines(conteudo)
+        arquivo.writelines(xml_ant + conteudo + xml_dep)
         arquivo.close()
 
     print(str(len(table)) + ' arquivos xml gerados...')

@@ -4,7 +4,7 @@ select
 
 	O.Entrada_Saida as 'E/S',
 	F.CNPJ as 'CNPJ',
-	MDF.Data_Emissao as 'DATA EMISSÃO',
+	MDF.Data_Emissao as 'DATA EMISSï¿½O',
 	MDF.Chave_Acesso as 'CHAVE',
 	MDF.Modelo as 'MODELO',
 	MDF.Serie as 'SERIE',
@@ -21,7 +21,10 @@ select
 	,'302-0','DENEGADA')
 	as 'STATUS',
 
-	MDF.XML_Documento
+    MDF.XML_Autorizacao,
+
+	MDF.XML_Documento +
+	MDF.XML_Autorizacao as 'XML_Documento'
 
 from Movimento_Documentos_Fiscais MDF
 
@@ -31,8 +34,7 @@ left join Operacoes O on O.Ordem = M.Ordem_Operacao
 
 where
 
-	CONVERT(varchar(5),MDF.Data_Emissao, 11) = convert(varchar(5),DATEADD(MONTH,-1,GETDATE()),11) and -- Data da competência
-	F.CNPJ in('00188968000193','00188968000355','00188968000436','00188968000517') and -- CNPJ 12729332000190 Seu Renato
+	CONVERT(varchar(8),MDF.Data_Emissao, 11) = convert(varchar(8),DATEADD(DAY,-1,GETDATE()),11) and -- Data da competï¿½ncia
 	MDF.Modelo in('55','65') and -- 55 NFe ou 65 NFCe
 	MDF.Codigo_Status in(100, 150) and -- 100 Autorizado ou 302 Denegado
 	MDF.Documento_Cancelado in(0) -- 0 Autorizados ou 1 Canceladas
