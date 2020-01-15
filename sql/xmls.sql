@@ -1,5 +1,3 @@
-use S9_Real
-
 select
 
 	O.Entrada_Saida as 'E/S',
