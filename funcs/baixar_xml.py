@@ -22,21 +22,29 @@ def exe(base_dir, dic):
         shutil.rmtree(os.path.join(base_dir,'xmls'))
     os.mkdir(os.path.join(base_dir,'xmls'))
 
-    for row in table:
+    if len(table) > 0:
 
-        xml = base_dir + 'xmls' + os.sep + row.CHAVE + '.xml'
-        conteudo = row.XML_Documento
-        xml_aut = row.XML_Autorizacao
+        for row in table:
 
-        obj = untangle.parse(xml_aut)
-        xmlns = obj.protNFe['xmlns']
-        versao = obj.protNFe['versao']
+            xml = base_dir + 'xmls' + os.sep + row.CHAVE + '.xml'
+            conteudo = row.XML_Documento
+            xml_aut = row.XML_Autorizacao
 
-        xml_ant = '<nfeProc xmlns="'+xmlns +'" versao="'+ versao +'">'
-        xml_dep = '</nfeProc>'
+            obj = untangle.parse(xml_aut)
+            xmlns = obj.protNFe['xmlns']
+            versao = obj.protNFe['versao']
 
-        arquivo = open(xml,'w')
-        arquivo.writelines(xml_ant + conteudo + xml_dep)
-        arquivo.close()
+            xml_ant = '<nfeProc xmlns="'+xmlns +'" versao="'+ versao +'">'
+            xml_dep = '</nfeProc>'
 
-    print(str(len(table)) + ' arquivos xml gerados...')
+            arquivo = open(xml,'w')
+            arquivo.writelines(xml_ant + conteudo + xml_dep)
+            arquivo.close()
+
+        print(dic['empresa'] + ' - ' + str(len(table)) + ' arquivos xml gerados...')
+
+        return 'yes'
+
+    else:
+
+        return 'no'
