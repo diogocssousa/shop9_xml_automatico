@@ -1,9 +1,29 @@
 import pyodbc, os, untangle, shutil
 
-def exe(base_dir, dic):
+def exe(conf_geral, dic):
 
-    arquivo = open('sql/xml_chaves.txt', 'r')
+    arquivo = open('sql/xml_chaves.sql', 'r')
     texto = arquivo.read()
+
+    if 'back_day' in list(conf_geral):
+
+        consulta = texto.replace(
+            'CONVERT(varchar(8),MDF.Data_Emissao, 11) = convert(varchar(8),DATEADD(DAY,-1,GETDATE()),11) and',
+            'CONVERT(varchar(8),MDF.Data_Emissao, 11) = convert(varchar(8),DATEADD(DAY,{},GETDATE()),11) and'
+                .format(conf_geral['back_day'])
+        )
+
+    elif 'date' in list(conf_geral):
+
+        consulta = texto.replace(
+            'CONVERT(varchar(8),MDF.Data_Emissao, 11) = convert(varchar(8),DATEADD(DAY,-1,GETDATE()),11) and',
+            "CONVERT(varchar(8),MDF.Data_Emissao, 11) = '{}' and"
+                .format(conf_geral['date'])
+        )
+
+    else:
+
+        consulta = texto
 
     conexao = \
         'DRIVER={ODBC Driver 17 for SQL Server};' \
@@ -14,19 +34,19 @@ def exe(base_dir, dic):
 
     cnxn = pyodbc.connect(conexao)
     cursor = cnxn.cursor()
-    cursor.execute(texto)
+    cursor.execute(consulta)
     table = cursor.fetchall()
     cnxn.close()
 
-    if os.path.isdir(os.path.join(base_dir,'xmls')) == True:
-        shutil.rmtree(os.path.join(base_dir,'xmls'))
-    os.mkdir(os.path.join(base_dir,'xmls'))
+    if os.path.isdir(os.path.join(conf_geral['base_dir'],'xmls')) == True:
+        shutil.rmtree(os.path.join(conf_geral['base_dir'],'xmls'))
+    os.mkdir(os.path.join(conf_geral['base_dir'],'xmls'))
 
     if len(table) > 0:
 
         for row in table:
 
-            xml = base_dir + 'xmls' + os.sep + row.CHAVE + '.xml'
+            xml = conf_geral['base_dir'] + 'xmls' + os.sep + row.CHAVE + '.xml'
             conteudo = row.XML_Documento
             xml_aut = row.XML_Autorizacao
 

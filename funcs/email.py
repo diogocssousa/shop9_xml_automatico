@@ -33,7 +33,7 @@ def adiciona_anexo(msg, filename):
     msg.attach(mime)
 
 
-def exe(base_dir, dic):
+def exe(conf_geral, dic):
 
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
@@ -41,7 +41,7 @@ def exe(base_dir, dic):
     acc_addr = 'diogocssousa.ds@gmail.com'
     acc_pwd = 'dcssousa1'
 
-    to_addr = dic['end_email']
+    to_addr = conf_geral['to_address']
 
     body = ''
 
@@ -57,7 +57,7 @@ def exe(base_dir, dic):
     msgText = MIMEText('<b>{}</b>'.format(body),'html')
     msg.attach(msgText)
 
-    adiciona_anexo(msg, os.path.join(base_dir,'xmls.zip'))
+    adiciona_anexo(msg, os.path.join(conf_geral['base_dir'],'xmls.zip'))
 
     server.sendmail(acc_addr, to_addr, msg.as_string())
     server.quit()
