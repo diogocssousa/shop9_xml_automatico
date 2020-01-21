@@ -1,5 +1,6 @@
 select
 
+	F.CNPJ,
 	MDF.Chave_Acesso as 'CHAVE',
     MDF.XML_Autorizacao,
 
@@ -14,6 +15,7 @@ left join Operacoes O on O.Ordem = M.Ordem_Operacao
 
 where
 
+    F.CNPJ = '' and
 	CONVERT(varchar(8),MDF.Data_Emissao, 11) = convert(varchar(8),DATEADD(DAY,-1,GETDATE()),11) and -- Data da competencia
 	MDF.Modelo in('55','65') and -- 55 NFe ou 65 NFCe
 	MDF.Codigo_Status in(100, 150) and -- 100 Autorizado ou 302 Denegado

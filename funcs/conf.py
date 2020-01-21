@@ -43,7 +43,7 @@ def cnx():
 
     return cnx
 
-def param():
+def param_default():
 
     # 'to_address' : 'diogo_k0@hotmail.com',
     # 'to_address' : 'depfiscal@contabli.com.br',
@@ -52,8 +52,12 @@ def param():
     # 'to_address' : 'nf-e_contabli@dominioboxe.com.br',
 
     param = {
-        'base_dir': os.getcwd(),
-        'to_address':'contabli@cofresieg.com.br',
+        'base_dir': [os.getcwd()],
+        'to_address':['contabli@cofresieg.com.br'],
+        'smtp_server':['smtp.gmail.com'],
+        'smtp_port':['587'],
+        'acc_addr':['diogocssousa.ds@gmail.com'],
+        'acc_pwd':['dcssousa1'],
     }
 
     return param

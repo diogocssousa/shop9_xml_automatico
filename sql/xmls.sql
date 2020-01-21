@@ -1,5 +1,6 @@
 select
 
+	F.CNPJ,
 	O.Entrada_Saida as 'E/S',
 	F.CNPJ as 'CNPJ',
 	MDF.Data_Emissao as 'DATA EMISS�O',
