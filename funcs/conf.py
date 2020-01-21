@@ -53,7 +53,7 @@ def param():
 
     param = {
         'base_dir': os.getcwd(),
-        'to_address':'nf-e_contabli@dominioboxe.com.br',
+        'to_address':'contabli@cofresieg.com.br',
     }
 
     return param
