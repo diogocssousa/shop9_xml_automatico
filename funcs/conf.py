@@ -1,6 +1,8 @@
+import os
+
 def cnx():
 
-    confs = {
+    cnx = {
         'Novo Aviamento':{
             'habilitado':'yes',
             'empresa': 'Novo Aviamento',
@@ -39,4 +41,19 @@ def cnx():
         },
     }
 
-    return confs
+    return cnx
+
+def param():
+
+    # 'to_address' : 'diogo_k0@hotmail.com',
+    # 'to_address' : 'depfiscal@contabli.com.br',
+    # 'to_address' : 'nf-e_contabli@dominioboxe.com.br',
+    # 'to_address' : 'contabli@cofresieg.com.br',
+    # 'to_address' : 'nf-e_contabli@dominioboxe.com.br',
+
+    param = {
+        'base_dir': os.getcwd(),
+        'to_address':'nf-e_contabli@dominioboxe.com.br',
+    }
+
+    return param
