@@ -49,11 +49,11 @@ def param_default():
     # 'to_address' : 'depfiscal@contabli.com.br',
     # 'to_address' : 'nf-e_contabli@dominioboxe.com.br',
     # 'to_address' : 'contabli@cofresieg.com.br',
-    # 'to_address' : 'nf-e_contabli@dominioboxe.com.br',
+    # 'to_address' : 'ricardo@contabli.com.br',
 
     param = {
         'base_dir': [os.getcwd()],
-        'to_address':['contabli@cofresieg.com.br'],
+        'to_address':['nf-e_contabli@dominioboxe.com.br'],
         'smtp_server':['smtp.gmail.com'],
         'smtp_port':['587'],
         'acc_addr':['diogocssousa.ds@gmail.com'],

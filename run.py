@@ -1,7 +1,7 @@
-from funcs import conf, sql_db, dir
+from funcs import conf, sql_db, dir, compactar, email
 import sys, untangle, os
 
-print('Iniciado...')
+print('Download de arquivos...')
 parametros = conf.param_default()
 
 for param in sys.argv :
@@ -29,6 +29,8 @@ clientes = conf.cnx()
 xml_cnpj = {}
 
 dir.criar_pasta_xml(parametros)
+
+dic_cnpj_empresa = {}
 
 for cliente in clientes:
 
@@ -61,6 +63,8 @@ for cliente in clientes:
 
                 print(str(cliente)+ ' - ' + str(cnpj) + ' - ' + str(len(xmls)))
 
+                dic_cnpj_empresa[str(cnpj)] = str(cliente)
+
                 for row in xmls:
                     xml = pasta + os.sep + row.CHAVE + '.xml'
                     conteudo = row.XML_Documento
@@ -76,4 +80,21 @@ for cliente in clientes:
                     arquivo = open(xml, 'w')
                     arquivo.writelines(xml_ant + conteudo + xml_dep)
                     arquivo.close()
+
+print('Compactando arquivos...')
+
+lst_cnpjs = sorted(os.listdir(os.path.join(parametros['base_dir'][0],'xmls')))
+
+dir.criar_pasta_zip(parametros)
+
+compactar.exe(parametros,dic_cnpj_empresa,lst_cnpjs)
+
+print('Enviando email ...')
+
+for cnpj in lst_cnpjs:
+
+    email.enviar(parametros,clientes[dic_cnpj_empresa[cnpj]], cnpj)
+
+    print('Email enviado de ' + str(dic_cnpj_empresa[cnpj]) + ' - ' + str(cnpj) + '.')
+
 print('Concluido...')

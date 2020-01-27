@@ -33,15 +33,15 @@ def adiciona_anexo(msg, filename):
     msg.attach(mime)
 
 
-def exe(conf_geral, dic):
+def enviar(conf_geral, dic, cnpj):
 
-    smtp_server = 'smtp.gmail.com'
-    smtp_port = 587
+    smtp_server = conf_geral['smtp_server'][0]
+    smtp_port = conf_geral['smtp_port'][0]
 
-    acc_addr = 'diogocssousa.ds@gmail.com'
-    acc_pwd = 'dcssousa1'
+    acc_addr = conf_geral['acc_addr'][0]
+    acc_pwd = conf_geral['acc_pwd'][0]
 
-    to_addr = conf_geral['to_address']
+    to_addr = conf_geral['to_address'][0]
 
     body = ''
 
@@ -52,12 +52,15 @@ def exe(conf_geral, dic):
     msg = MIMEMultipart()
     msg["From"] = acc_addr
     msg["To"] = to_addr
-    msg["Subject"] = dic['titulo']
+    msg["Subject"] = dic['titulo'] + ' - ' + str(cnpj)
 
     msgText = MIMEText('<b>{}</b>'.format(body),'html')
     msg.attach(msgText)
 
-    adiciona_anexo(msg, os.path.join(conf_geral['base_dir'],'xmls.zip'))
+    nome_arq = dic['empresa'] + ' - ' + str(cnpj) + '.zip'
+    pasta_xml = str(os.path.join(conf_geral['base_dir'][0], 'zip'))
+
+    adiciona_anexo(msg, os.path.join(pasta_xml, nome_arq))
 
     server.sendmail(acc_addr, to_addr, msg.as_string())
     server.quit()
