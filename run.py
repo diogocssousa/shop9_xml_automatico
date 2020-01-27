@@ -28,6 +28,8 @@ clientes = conf.cnx()
 
 xml_cnpj = {}
 
+dir.criar_pasta_xml(parametros)
+
 for cliente in clientes:
 
     if clientes[cliente]['habilitado'] == 'yes':
@@ -43,8 +45,6 @@ for cliente in clientes:
 
             xml_cnpj[cnpj.CNPJ] = {}
 
-        dir.criar_pasta_xml(parametros)
-
         for cnpj in xml_cnpj:
 
             arq_sql_chaves = open('sql/xml_chaves.sql', 'r')
@@ -55,12 +55,11 @@ for cliente in clientes:
 
             xmls = sql_db.select(cnx_sql, filtro_02)
 
-            pasta = dir.criar_pasta_cnpj(parametros, cnpj)
-
             if len(xmls) > 0:
 
-                print(pasta)
-                print(len(xmls))
+                pasta = dir.criar_pasta_cnpj(parametros, cnpj)
+
+                print(str(cliente)+ ' - ' + str(cnpj) + ' - ' + str(len(xmls)))
 
                 for row in xmls:
                     xml = pasta + os.sep + row.CHAVE + '.xml'
