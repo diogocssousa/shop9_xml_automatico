@@ -89,7 +89,7 @@ dir.criar_pasta_zip(parametros)
 
 compactar.exe(parametros,dic_cnpj_empresa,lst_cnpjs)
 
-print('Enviando email ...')
+print('Enviando emails para, ' + str(parametros['to_address'][0]) + '.')
 
 for cnpj in lst_cnpjs:
 
