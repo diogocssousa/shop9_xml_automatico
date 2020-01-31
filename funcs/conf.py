@@ -13,7 +13,7 @@ def cnx():
             'titulo':'Novo Aviamento - XML',
         },
         'RJ Chaefer': {
-            'habilitado': 'yes',
+            'habilitado': 'no',
             'empresa': 'RJ Chaefer',
             'ip': '45.4.147.69',
             'porta': '1410',
@@ -22,7 +22,7 @@ def cnx():
             'titulo': 'R&J Chaefer - XML',
         },
         'Metropolis Atacado': {
-            'habilitado': 'yes',
+            'habilitado': 'no',
             'empresa':'Metropolis Atacado',
             'ip': '186.235.191.141',
             'porta': '1434',
@@ -31,7 +31,7 @@ def cnx():
             'titulo': 'Metropolis Moda Urbana - XML',
         },
         'Metropolis Varejo': {
-            'habilitado': 'yes',
+            'habilitado': 'no',
             'empresa':'Metropolis Varejo',
             'ip': '186.235.191.141',
             'porta': '1314',

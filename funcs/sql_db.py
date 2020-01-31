@@ -66,3 +66,13 @@ def filtro_02(cnpj, sql_select):
         )
 
     return consulta
+
+def filtro_03(sql_select):
+
+    if True:
+        consulta = sql_select.replace(
+            "MDF.Documento_Cancelado in(0)",
+            "MDF.Documento_Cancelado in(1)"
+        )
+
+    return consulta

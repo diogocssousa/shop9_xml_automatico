@@ -17,3 +17,9 @@ def criar_pasta_cnpj(parametros, cnpj):
     os.mkdir(os.path.join(parametros['base_dir'][0], 'xmls' + os.sep + str(cnpj)))
 
     return os.path.join(parametros['base_dir'][0], 'xmls' + os.sep + str(cnpj))
+
+def criar_pasta_cnpj_cancelados(parametros, cnpj):
+
+    os.mkdir(os.path.join(parametros['base_dir'][0], 'xmls' + os.sep + str(cnpj) + ' - Cancelados.'))
+
+    return os.path.join(parametros['base_dir'][0], 'xmls' + os.sep + str(cnpj) + ' - Cancelados.')

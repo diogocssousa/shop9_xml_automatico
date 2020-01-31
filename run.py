@@ -61,7 +61,7 @@ for cliente in clientes:
 
                 pasta = dir.criar_pasta_cnpj(parametros, cnpj)
 
-                print(str(cliente)+ ' - ' + str(cnpj) + ' - ' + str(len(xmls)))
+                print(str(cliente)+ ' - ' + str(cnpj) + ' - ' + str(len(xmls)) + ' xmls autorizados.')
 
                 dic_cnpj_empresa[str(cnpj)] = str(cliente)
 
@@ -76,6 +76,41 @@ for cliente in clientes:
 
                     xml_ant = '<nfeProc xmlns="' + xmlns + '" versao="' + versao + '">'
                     xml_dep = '</nfeProc>'
+
+                    arquivo = open(xml, 'w')
+                    arquivo.writelines(xml_ant + conteudo + xml_dep)
+                    arquivo.close()
+
+        for cnpj in xml_cnpj:
+
+            arq_sql_chaves = open('sql/xml_chaves.sql', 'r')
+            sql_xml = arq_sql_chaves.read()
+
+            filtro_01 = sql_db.filtro_01(parametros,sql_xml)
+            filtro_02 = sql_db.filtro_02(cnpj, filtro_01)
+            filtro_03 = sql_db.filtro_03(filtro_02)
+
+            xmls = sql_db.select(cnx_sql, filtro_03)
+
+            if len(xmls) > 0:
+
+                pasta = dir.criar_pasta_cnpj_cancelados(parametros, cnpj)
+
+                print(str(cliente)+ ' - ' + str(cnpj) + ' - ' + str(len(xmls)) + ' xmls canceladas.')
+
+                dic_cnpj_empresa[str(cnpj)] = str(cliente)
+
+                for row in xmls:
+                    xml = pasta + os.sep + row.CHAVE + '.xml'
+                    conteudo = row.XML_Documento_Cancelamento
+                    xml_aut = row.Xml_Evento
+
+                    obj = untangle.parse(xml_aut)
+                    xmlns = obj.evento['xmlns']
+                    versao = obj.evento['versao']
+
+                    xml_ant = '<procEventoNFe xmlns="' + xmlns + '" versao="' + versao + '">'
+                    xml_dep = '</procEventoNFe>'
 
                     arquivo = open(xml, 'w')
                     arquivo.writelines(xml_ant + conteudo + xml_dep)

@@ -5,13 +5,18 @@ select
     MDF.XML_Autorizacao,
 
 	MDF.XML_Documento + 
-	MDF.XML_Autorizacao as 'XML_Documento'
+	MDF.XML_Autorizacao as 'XML_Documento',
+
+	NE.Xml_Evento,
+	NE.Xml_Evento +
+	NE.Xml_Retorno as 'XML_Documento_Cancelamento'
 
 from Movimento_Documentos_Fiscais MDF
 
 left join Movimento M on M.Ordem = MDF.Ordem_Movimento
 left join Filiais F on F.Ordem = M.Ordem_Filial
 left join Operacoes O on O.Ordem = M.Ordem_Operacao
+left join NFe_Eventos NE on NE.Ordem_Movimento_Documentos_Fiscais = MDF.Ordem
 
 where
 
