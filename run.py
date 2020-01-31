@@ -1,5 +1,5 @@
 from funcs import conf, sql_db, dir, compactar, email
-import sys, untangle, os
+import sys, untangle, os, shutil
 
 print('Download de arquivos...')
 parametros = conf.param_default()
@@ -115,6 +115,19 @@ for cliente in clientes:
                     arquivo = open(xml, 'w')
                     arquivo.writelines(xml_ant + conteudo + xml_dep)
                     arquivo.close()
+
+                notas_canceladas = os.listdir(pasta)
+
+                for cancelamento in notas_canceladas:
+                    shutil.copyfile(
+                        os.path.join(pasta, cancelamento),
+                        os.path.join(
+                            parametros['base_dir'][0],
+                            'xmls' + os.sep + str(cnpj) + os.sep + cancelamento.replace('.xml', '_cancelada.xml')
+                        )
+                    )
+
+                shutil.rmtree(pasta)
 
 print('Compactando arquivos...')
 
